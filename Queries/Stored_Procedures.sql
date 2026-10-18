@@ -22,6 +22,14 @@ BEGIN
     DECLARE v_total_items INT DEFAULT 0;
     DECLARE v_count INT; -- Number of products in the comma separated list
 
+	-- If any statement fails (unknown product, not enough stock, ...), undo the whole order
+	-- and pass the original error back to the caller
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        RESIGNAL;
+    END;
+
 	-- Calculating the number of items in the product list by counting the commas and adding 1. i.e 1,2,3
     SET v_count = LENGTH(p_product_ids) - LENGTH(REPLACE(p_product_ids, ',', '')) + 1;
 
