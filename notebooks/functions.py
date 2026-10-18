@@ -158,7 +158,7 @@ def get_session_with_retries(total_retries: int = 3, backoff: float = 0.3) -> re
     # backoff_factor: Delay between retries (0.3s, 0.6s, 1.2s).
     # status_forcelist: Retry on these HTTP status codes.
 
-    session.mount('htttps://', HTTPAdapter(max_retries=retry))     # Attaches the retry logic to HTTPS requests.
+    session.mount('https://', HTTPAdapter(max_retries=retry))     # Attaches the retry logic to HTTPS requests.
 
     return session
 
